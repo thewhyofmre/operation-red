@@ -384,23 +384,14 @@
       <div class="evidence-grid">
         <article class="evidence">
           <div class="evidence-title">Evidence A // Application log</div>
-          <div class="terminal">09:13:37 INFO  Health check completed
-09:13:39 INFO  Connection pool active
-09:13:41 WARN  Recovery request detected
-09:13:42 INFO  Recovery procedure initialized
-09:13:44 INFO  Loading component configuration
-09:13:45 WARN  Recovery message required
-09:13:46 INFO  Message reference: ****-2841
-09:13:48 ERROR Recovery authentication pending</div>
+          <p>A log fragment was recovered from the affected component.</p>
+          <button onclick="downloadLog()">DOWNLOAD APPLICATION.LOG</button>
         </article>
 
         <article class="evidence">
           <div class="evidence-title">Evidence B // Recovered Teams conversation</div>
-          <div class="chat-message"><strong>Laura · 08:47</strong><br />Quick question, how are message IDs generated for each component?</div>
-          <div class="chat-message"><strong>Mike · 08:48</strong><br />Each component has its own prefix.</div>
-          <div class="chat-message"><strong>Laura · 08:49</strong><br />What do we use for the Messaging Service?</div>
-          <div class="chat-message"><strong>Mike · 08:50</strong><br />For that component, we always use <code>MSG</code>.</div>
-          <div class="chat-message"><strong>Laura · 08:51</strong><br />Got it 👍</div>
+          <p>A short conversation about component message identifiers was recovered.</p>
+          <button onclick="downloadConversation()">DOWNLOAD TEAMS-CONVERSATION.TXT</button>
         </article>
 
         <article class="evidence full">
@@ -543,6 +534,51 @@ PLATFORM STATUS............. ONLINE</div>
     } else {
       showMessage('nodeMessage', 'Incorrect node. Recheck the mathematical property shared by the other nine IDs.', false);
     }
+  }
+
+  function downloadTextFile(filename, content) {
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadLog() {
+    const content = `09:13:37 INFO  Health check completed
+09:13:39 INFO  Connection pool active
+09:13:41 WARN  Recovery request detected
+09:13:42 INFO  Recovery procedure initialized
+09:13:44 INFO  Loading component configuration
+09:13:45 WARN  Recovery message required
+09:13:46 INFO  Message reference: ****-2841
+09:13:48 ERROR Recovery authentication pending`;
+    downloadTextFile('application.log', content);
+  }
+
+  function downloadConversation() {
+    const content = `RECOVERED TEAMS CONVERSATION
+========================================
+
+Laura · 08:47
+Quick question, how are message IDs generated for each component?
+
+Mike · 08:48
+Each component has its own prefix.
+
+Laura · 08:49
+What do we use for the Messaging Service?
+
+Mike · 08:50
+For that component, we always use MSG.
+
+Laura · 08:51
+Got it.`;
+    downloadTextFile('teams-conversation.txt', content);
   }
 
   function checkRecovery() {
