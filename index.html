@@ -1,308 +1,589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Operation Red Signal</title>
+  <style>
+    :root {
+      --vodafone: #e60000;
+      --vodafone-light: #ff3b3b;
+      --bg: #07090d;
+      --panel: #10141b;
+      --panel-2: #171d26;
+      --border: #2b3542;
+      --text: #f1f4f8;
+      --muted: #9aa6b5;
+      --green: #36e394;
+      --yellow: #ffd166;
+      --blue: #65b7ff;
+    }
 
-    <title>Operation Red Signal</title>
+    * { box-sizing: border-box; }
 
-    <style>
-        body {
-            background: #080c10;
-            color: #d4d4d4;
-            font-family: "Courier New", monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 50% -20%, #242d3a 0, transparent 48%),
+        linear-gradient(180deg, #090c11, var(--bg));
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
 
-        .terminal {
-            width: 700px;
-            max-width: 85%;
-            padding: 40px;
-            border: 1px solid #444;
-            background: #010409;
-            box-shadow: 0 0 25px rgba(0,0,0,0.8);
-        }
+    .app {
+      width: min(1000px, 92vw);
+      margin: 28px auto 50px;
+    }
 
-        h1 {
-            color: #e60000;
-            font-size: 25px;
-        }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
 
-        h2 {
-            color: white;
-            margin-top: 30px;
-        }
+    .brand {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1.4px;
+    }
 
-        .alert {
-            color: #ff4444;
-            font-weight: bold;
-        }
+    .brand span { color: var(--vodafone-light); }
 
-        .green {
-            color: #00ff88;
-        }
+    .timer {
+      min-width: 92px;
+      padding: 10px 13px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #080b10;
+      text-align: center;
+      font: 800 17px "Courier New", monospace;
+    }
 
-        .yellow {
-            color: #ffd700;
-        }
+    .progress {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
 
-        .nodes {
-            margin: 30px 0;
-            padding: 20px;
-            background: #0d1117;
-            line-height: 2;
-        }
+    .progress-bar {
+      height: 7px;
+      border-radius: 999px;
+      background: #252d38;
+      transition: background .25s ease;
+    }
 
-        .node {
-            display: flex;
-            justify-content: space-between;
-        }
+    .progress-bar.active { background: var(--vodafone); }
 
-        input {
-            background: #0d1117;
-            color: #00ff88;
-            border: 1px solid #555;
-            padding: 12px;
-            font-family: "Courier New", monospace;
-            font-size: 16px;
-            width: 200px;
-        }
+    .card {
+      padding: clamp(22px, 4vw, 42px);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(15, 19, 26, .97);
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .42);
+    }
 
-        button {
-            background: #e60000;
-            color: white;
-            border: none;
-            padding: 13px 20px;
-            margin-left: 10px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+    .classification {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
 
-        button:hover {
-            background: #ff2222;
-        }
+    h1 {
+      margin: 10px 0 8px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+    }
 
-        #error {
-            color: #ff4444;
-            margin-top: 20px;
-            display: none;
-        }
+    h2 {
+      margin: 28px 0 12px;
+      font-size: 19px;
+    }
 
-        #success {
-            display: none;
-            margin-top: 30px;
-            padding: 20px;
-            border: 1px solid #00ff88;
-            background: #05150d;
-        }
+    p { line-height: 1.58; }
+    .alert { color: var(--vodafone-light); font-weight: 800; }
+    .muted { color: var(--muted); }
+    .green { color: var(--green); }
+    .yellow { color: var(--yellow); }
 
-        .blink {
-            animation: blink 1s infinite;
-        }
+    .terminal {
+      margin: 20px 0;
+      padding: 18px;
+      overflow-x: auto;
+      border: 1px solid #293544;
+      border-radius: 11px;
+      background: #05080c;
+      color: #dbe5ef;
+      font: 14px/1.65 "Courier New", monospace;
+      white-space: pre-wrap;
+    }
 
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
+    .node-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(95px, 1fr));
+      gap: 10px;
+      margin: 22px 0;
+    }
 
-        .classified {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 25px;
-        }
-    </style>
+    .node {
+      padding: 14px 8px;
+      border: 1px solid #303b49;
+      border-radius: 9px;
+      background: var(--panel-2);
+      text-align: center;
+      font: 800 14px "Courier New", monospace;
+    }
+
+    .status {
+      display: block;
+      margin-top: 7px;
+      color: var(--green);
+      font-size: 11px;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .evidence {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--panel-2);
+    }
+
+    .evidence.full { grid-column: 1 / -1; }
+
+    .evidence-title {
+      margin-bottom: 12px;
+      color: var(--yellow);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .chat-message {
+      margin: 12px 0;
+      padding-left: 12px;
+      border-left: 3px solid #485568;
+      line-height: 1.5;
+    }
+
+    .chat-message strong { color: var(--blue); }
+
+    .archive {
+      max-height: 340px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .archive-entry {
+      margin-bottom: 13px;
+      padding: 11px 12px;
+      border: 1px solid #2c3744;
+      border-radius: 8px;
+      background: #0b0f15;
+      font-family: "Courier New", monospace;
+    }
+
+    .archive-entry strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--blue);
+    }
+
+    code {
+      color: var(--green);
+      word-break: break-all;
+    }
+
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 220px;
+      padding: 13px 14px;
+      border: 1px solid #465364;
+      border-radius: 9px;
+      outline: none;
+      background: #070a0f;
+      color: var(--green);
+      font: 16px "Courier New", monospace;
+      text-transform: uppercase;
+    }
+
+    input:focus { border-color: var(--green); }
+
+    button {
+      padding: 13px 18px;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      background: var(--vodafone);
+      color: #fff;
+      font-weight: 900;
+      letter-spacing: .3px;
+    }
+
+    button:hover { background: #ff1919; }
+
+    .hint-button {
+      margin-top: 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .message {
+      min-height: 24px;
+      margin-top: 14px;
+      font-weight: 800;
+    }
+
+    .error { color: var(--vodafone-light); }
+    .success { color: var(--green); }
+    .hint { display: none; margin-top: 11px; color: var(--yellow); }
+    .hidden { display: none !important; }
+
+    .history {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .attempt {
+      display: grid;
+      grid-template-columns: 130px 1fr 1fr;
+      gap: 18px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel-2);
+    }
+
+    .attempt-name {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .attempt-number {
+      font: 900 25px "Courier New", monospace;
+      letter-spacing: 6px;
+    }
+
+    .symbols {
+      font-size: 25px;
+      letter-spacing: 8px;
+      white-space: nowrap;
+    }
+
+    .legend {
+      display: grid;
+      gap: 8px;
+      margin: 18px 0;
+      padding: 15px;
+      border-left: 4px solid var(--yellow);
+      background: #151811;
+    }
+
+    .legend span { font-size: 20px; margin-right: 8px; }
+
+    .final-code {
+      margin: 24px 0;
+      padding: 22px;
+      border: 1px solid var(--green);
+      border-radius: 10px;
+      color: var(--green);
+      text-align: center;
+      font: 900 clamp(25px, 6vw, 46px) "Courier New", monospace;
+      letter-spacing: 3px;
+    }
+
+    .footer {
+      margin-top: 15px;
+      color: #6f7b89;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .node-grid { grid-template-columns: repeat(2, 1fr); }
+      .evidence-grid { grid-template-columns: 1fr; }
+      .evidence.full { grid-column: auto; }
+      .attempt { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
 </head>
-
 <body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><span>VODAFONE</span> // SECURITY OPERATIONS</div>
+    <div class="timer" id="timer">10:00</div>
+  </header>
 
-<div class="terminal">
+  <div class="progress" aria-label="Challenge progress">
+    <div class="progress-bar active" id="progress1"></div>
+    <div class="progress-bar" id="progress2"></div>
+    <div class="progress-bar" id="progress3"></div>
+  </div>
 
-    <div class="classified">
-        INTERNAL // CONFIDENTIAL // SECURITY OPERATIONS
-    </div>
+  <main class="card">
+    <!-- PUZZLE 2: NODE ANALYSIS -->
+    <section id="stage1">
+      <div class="classification">Internal // Confidential // Operation Red Signal</div>
+      <h1>Compromised node analysis</h1>
+      <p class="alert">Ten nodes responded during the incident. Nine share the same mathematical property. One does not.</p>
+      <p>Identify and isolate the compromised node.</p>
 
-    <h1>VODAFONE // RESTRICTED SYSTEM</h1>
+      <div class="node-grid">
+        <div class="node">NODE-73<span class="status">ONLINE</span></div>
+        <div class="node">NODE-29<span class="status">ONLINE</span></div>
+        <div class="node">NODE-61<span class="status">ONLINE</span></div>
+        <div class="node">NODE-43<span class="status">ONLINE</span></div>
+        <div class="node">NODE-91<span class="status">ONLINE</span></div>
+        <div class="node">NODE-17<span class="status">ONLINE</span></div>
+        <div class="node">NODE-53<span class="status">ONLINE</span></div>
+        <div class="node">NODE-37<span class="status">ONLINE</span></div>
+        <div class="node">NODE-67<span class="status">ONLINE</span></div>
+        <div class="node">NODE-47<span class="status">ONLINE</span></div>
+      </div>
 
-    <p class="alert">
-        ⚠ SECURITY INCIDENT DETECTED
-    </p>
+      <div class="input-row">
+        <input id="nodeAnswer" placeholder="Compromised node ID" autocomplete="off" />
+        <button onclick="checkNode()">ISOLATE NODE</button>
+      </div>
+      <div class="message" id="nodeMessage"></div>
+      <button class="hint-button" onclick="showHint('nodeHint')">REQUEST HINT</button>
+      <div class="hint" id="nodeHint">Try checking whether every node ID has exactly two positive divisors.</div>
+    </section>
 
-    <p>
-        An anomaly was detected on the internal network.
-    </p>
+    <!-- PUZZLE 3: CROSS EVIDENCE -->
+    <section id="stage2" class="hidden">
+      <div class="classification">Forensic workspace // Evidence correlation</div>
+      <h1>Reconstruct the recovery message ID</h1>
+      <p class="alert">One recovery payload is genuine. Every other token is a decoy.</p>
+      <p>Cross-reference the log, the Teams conversation and the recovered message archive. Then decode the correct payload.</p>
 
-    <p>
-        Five nodes responded during the incident:
-    </p>
+      <div class="evidence-grid">
+        <article class="evidence">
+          <div class="evidence-title">Evidence A // Application log</div>
+          <div class="terminal">09:13:37 INFO  Health check completed
+09:13:39 INFO  Connection pool active
+09:13:41 WARN  Recovery request detected
+09:13:42 INFO  Recovery procedure initialized
+09:13:44 INFO  Loading component configuration
+09:13:45 WARN  Recovery message required
+09:13:46 INFO  Message reference: ****-2841
+09:13:48 ERROR Recovery authentication pending</div>
+        </article>
 
-    <div class="nodes">
+        <article class="evidence">
+          <div class="evidence-title">Evidence B // Recovered Teams conversation</div>
+          <div class="chat-message"><strong>Laura · 08:47</strong><br />Quick question, how are message IDs generated for each component?</div>
+          <div class="chat-message"><strong>Mike · 08:48</strong><br />Each component has its own prefix.</div>
+          <div class="chat-message"><strong>Laura · 08:49</strong><br />What do we use for the Messaging Service?</div>
+          <div class="chat-message"><strong>Mike · 08:50</strong><br />For that component, we always use <code>MSG</code>.</div>
+          <div class="chat-message"><strong>Laura · 08:51</strong><br />Got it 👍</div>
+        </article>
 
-        <div class="node">
-            <span>NODE-17</span>
-            <span class="green">ONLINE</span>
+        <article class="evidence full">
+          <div class="evidence-title">Evidence C // Recovered message archive</div>
+          <div class="archive">
+            <div class="archive-entry"><strong>MSG-7310</strong><code>U1RBVFVTLU9OTElORQ==</code></div>
+            <div class="archive-entry"><strong>AUTH-2841</strong><code>QVVUSC1UT0tFTi1WQUxJRA==</code></div>
+            <div class="archive-entry"><strong>MSG-9921</strong><code>REVQTE9ZTUVOVC1PSw==</code></div>
+            <div class="archive-entry"><strong>NET-2841</strong><code>TkVUV09SSy1DSEVDSw==</code></div>
+            <div class="archive-entry"><strong>API-4483</strong><code>QVBJLU9OTElORQ==</code></div>
+            <div class="archive-entry"><strong>MSG-2841</strong><code>UkVDT1ZFUlktQ09OU09MRQ==</code></div>
+            <div class="archive-entry"><strong>AUTH-5527</strong><code>QVVUSC1PSw==</code></div>
+            <div class="archive-entry"><strong>MSG-6704</strong><code>U1RBVFVTLUhFQUxUSFk=</code></div>
+            <div class="archive-entry"><strong>API-2841</strong><code>QVBJLVJFQ09WRVJZ</code></div>
+            <div class="archive-entry"><strong>MSG-1937</strong><code>VEVTVElORy1PTkxZ</code></div>
+            <div class="archive-entry"><strong>DB-2841</strong><code>REFUQUJBU0UtT0s=</code></div>
+            <div class="archive-entry"><strong>MSG-8221</strong><code>T0xELVJFQ09WRVJZ</code></div>
+          </div>
+        </article>
+      </div>
+
+      <p class="muted">Enter the decoded payload, not the message ID or the encoded token.</p>
+      <div class="input-row">
+        <input id="recoveryAnswer" placeholder="Decoded recovery destination" autocomplete="off" />
+        <button onclick="checkRecovery()">CONNECT</button>
+      </div>
+      <div class="message" id="recoveryMessage"></div>
+      <button class="hint-button" onclick="showHint('recoveryHint')">REQUEST HINT</button>
+      <div class="hint" id="recoveryHint">Combine the four-letter mask from the log with the component prefix from Teams. The selected payload uses Base64.</div>
+    </section>
+
+    <!-- PUZZLE 4: FIVE-DIGIT MASTERMIND -->
+    <section id="stage3" class="hidden">
+      <div class="classification">Recovery console // Authentication history</div>
+      <h1>Recover the five-digit PIN</h1>
+      <p>The PIN contains <strong>five different digits</strong>. Use the recovered authentication history to determine the only valid sequence.</p>
+      <p class="alert">The symbols show quantities only. Their displayed order does not correspond to the digits above them.</p>
+
+      <div class="history">
+        <div class="attempt">
+          <div class="attempt-name">ATTEMPT #01</div>
+          <div class="attempt-number">71389</div>
+          <div class="symbols">× × × × ×</div>
         </div>
-
-        <div class="node">
-            <span>NODE-23</span>
-            <span class="green">ONLINE</span>
+        <div class="attempt">
+          <div class="attempt-name">ATTEMPT #02</div>
+          <div class="attempt-number">45026</div>
+          <div class="symbols">● ● ○ ○ ○</div>
         </div>
-
-        <div class="node">
-            <span>NODE-29</span>
-            <span class="green">ONLINE</span>
+        <div class="attempt">
+          <div class="attempt-name">ATTEMPT #03</div>
+          <div class="attempt-number">56817</div>
+          <div class="symbols">● ● × × ×</div>
         </div>
-
-        <div class="node">
-            <span>NODE-35</span>
-            <span class="gree">ONLINE</span>
+        <div class="attempt">
+          <div class="attempt-name">ATTEMPT #04</div>
+          <div class="attempt-number">20564</div>
+          <div class="symbols">● ○ ○ ○ ○</div>
         </div>
+      </div>
 
-        <div class="node">
-            <span>NODE-41</span>
-            <span class="green">ONLINE</span>
-        </div>
+      <div class="legend">
+        <div><span>●</span>Correct digit, correct position</div>
+        <div><span>○</span>Correct digit, wrong position</div>
+        <div><span>×</span>Digit not present in the PIN</div>
+      </div>
 
-    </div>
+      <div class="input-row">
+        <input id="pinAnswer" placeholder="Five-digit recovery PIN" maxlength="5" inputmode="numeric" autocomplete="off" />
+        <button onclick="checkPin()">RESTORE SYSTEM</button>
+      </div>
+      <div class="message" id="pinMessage"></div>
+      <button class="hint-button" onclick="showHint('pinHint')">REQUEST HINT</button>
+      <div class="hint" id="pinHint">Start with Attempt #01 to eliminate digits. Attempt #02 tells you exactly which five digits are used.</div>
+    </section>
 
-    <h2>SECURITY ANALYSIS</h2>
+    <!-- FINAL -->
+    <section id="finalStage" class="hidden">
+      <div class="classification">Operation Red Signal // Mission complete</div>
+      <h1 class="green">System restored</h1>
+      <div class="terminal">MESSAGE ROUTE............... RESTORED
+RECOVERY CONSOLE............ AUTHENTICATED
+SECURITY LOCK............... CLEARED
+PLATFORM STATUS............. ONLINE</div>
+      <p>Send this code privately to the game host in Teams:</p>
+      <div class="final-code">RED-SIGNAL-56024</div>
+      <p class="muted">Do not share it with the other teams.</p>
+    </section>
+  </main>
 
-    <p>
-        Four nodes share the same mathematical property.
-    </p>
-
-    <p>
-        The compromised node is the exception.
-    </p>
-
-    <br>
-
-    <label>COMPROMISED NODE ID:</label>
-
-    <br><br>
-
-    <input
-        type="text"
-        id="answer"
-        autocomplete="off"
-        placeholder="NODE ID"
-    >
-
-    <button onclick="verifyNode()">
-        VERIFY NODE
-    </button>
-
-    <div id="error">
-        ACCESS DENIED<br><br>
-        Incorrect node identification.
-        <span class="blink">_</span>
-    </div>
-
-    <div id="success">
-
-        <h2 class="green">✓ NODE IDENTIFIED</h2>
-
-        <p>
-            NODE-35 isolated successfully.
-        </p>
-
-        <p>
-            Recovering forensic evidence...
-        </p>
-
-        <p class="green">
-            EVIDENCE RECOVERED
-        </p>
-
-        <p>
-            File: incident.log
-        </p>
-
-        <button onclick="downloadEvidence()">
-            DOWNLOAD EVIDENCE
-        </button>
-
-    </div>
-
+  <div class="footer">Fictional team-building challenge. No real Vodafone systems, credentials or operational data are used.</div>
 </div>
 
 <script>
+  let currentStage = 1;
+  let secondsLeft = 10 * 60;
 
-function verifyNode() {
-
-    const answer = document
-        .getElementById("answer")
-        .value
-        .trim()
-        .toLowerCase();
-
-    const error = document.getElementById("error");
-    const success = document.getElementById("success");
-
-    if (answer === "35" || answer === "node-35") {
-
-        error.style.display = "none";
-        success.style.display = "block";
-
-    } else {
-
-        success.style.display = "none";
-        error.style.display = "block";
-
+  const countdown = setInterval(() => {
+    if (secondsLeft <= 0) {
+      clearInterval(countdown);
+      const timer = document.getElementById('timer');
+      timer.textContent = '00:00';
+      timer.style.color = '#ff3b3b';
+      return;
     }
-}
 
-function downloadEvidence() {
+    secondsLeft -= 1;
+    const minutes = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+    const seconds = String(secondsLeft % 60).padStart(2, '0');
+    document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+  }, 1000);
 
-    const log = `08:42:01 INFO  Authentication service started
-08:42:04 INFO  User validation successful
-08:42:07 INFO  Gateway status OK
-08:42:09 INFO  Connection from internal network
-08:42:11 WARN  Restricted endpoint requested
+  function normalize(value) {
+    return value.trim().toUpperCase().replace(/\s+/g, '');
+  }
 
-08:42:13 INFO  Authentication token received
+  function showMessage(id, text, success) {
+    const element = document.getElementById(id);
+    element.textContent = text;
+    element.className = `message ${success ? 'success' : 'error'}`;
+  }
 
-TOKEN:
-Vk9EQUZPTkUtNDcyOQ==
+  function showHint(id) {
+    document.getElementById(id).style.display = 'block';
+  }
 
-08:42:15 WARN  Access denied
-08:42:17 INFO  Connection terminated
+  function moveToStage(number) {
+    document.getElementById(`stage${currentStage}`).classList.add('hidden');
+    currentStage = number;
+    document.getElementById(`stage${number}`).classList.remove('hidden');
+    document.getElementById(`progress${number}`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
---- END OF RECOVERED LOG ---`;
+  function checkNode() {
+    const answer = normalize(document.getElementById('nodeAnswer').value).replace('NODE-', '');
+    if (answer === atob('OTE=')) {
+      showMessage('nodeMessage', 'NODE-91 isolated. Forensic workspace unlocked.', true);
+      setTimeout(() => moveToStage(2), 650);
+    } else {
+      showMessage('nodeMessage', 'Incorrect node. Recheck the mathematical property shared by the other nine IDs.', false);
+    }
+  }
 
-    const blob = new Blob([log], {
-        type: "text/plain"
+  function checkRecovery() {
+    const answer = normalize(document.getElementById('recoveryAnswer').value).replace(/[–—_]/g, '-');
+    if (answer === atob('UkVDT1ZFUlktQ09OU09MRQ==')) {
+      showMessage('recoveryMessage', 'Recovery console connected. Authentication history unlocked.', true);
+      setTimeout(() => moveToStage(3), 650);
+    } else {
+      showMessage('recoveryMessage', 'Connection rejected. Make sure you selected and decoded the correct message payload.', false);
+    }
+  }
+
+  function checkPin() {
+    const answer = normalize(document.getElementById('pinAnswer').value);
+    if (answer === atob('NTYwMjQ=')) {
+      showMessage('pinMessage', 'PIN accepted. Restoring the platform...', true);
+      setTimeout(() => {
+        document.getElementById('stage3').classList.add('hidden');
+        document.getElementById('finalStage').classList.remove('hidden');
+        clearInterval(countdown);
+        const timer = document.getElementById('timer');
+        timer.textContent = 'COMPLETE';
+        timer.style.color = '#36e394';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 700);
+    } else {
+      showMessage('pinMessage', 'PIN rejected. Recheck the quantity and position information in all four attempts.', false);
+    }
+  }
+
+  const enterActions = {
+    nodeAnswer: checkNode,
+    recoveryAnswer: checkRecovery,
+    pinAnswer: checkPin
+  };
+
+  Object.entries(enterActions).forEach(([id, action]) => {
+    document.getElementById(id).addEventListener('keydown', event => {
+      if (event.key === 'Enter') action();
     });
-
-    const url = URL.createObjectURL(blob);
-
-    const a = document.createElement("a");
-
-    a.href = url;
-    a.download = "incident.log";
-
-    document.body.appendChild(a);
-
-    a.click();
-
-    document.body.removeChild(a);
-
-    URL.revokeObjectURL(url);
-}
-
-document
-    .getElementById("answer")
-    .addEventListener("keypress", function(event) {
-
-        if (event.key === "Enter") {
-            verifyNode();
-        }
-
-    });
-
+  });
 </script>
-
 </body>
 </html>
