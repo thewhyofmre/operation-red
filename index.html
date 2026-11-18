@@ -3,30 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Operation Red Signal</title>
 
     <style>
         body {
-            background: #0d1117;
-            color: #00ff88;
+            background: #080c10;
+            color: #d4d4d4;
             font-family: "Courier New", monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
 
         .terminal {
             width: 700px;
+            max-width: 85%;
             padding: 40px;
-            border: 1px solid #00ff88;
+            border: 1px solid #444;
             background: #010409;
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
         }
 
-        .red {
+        h1 {
+            color: #e60000;
+            font-size: 25px;
+        }
+
+        h2 {
+            color: white;
+            margin-top: 30px;
+        }
+
+        .alert {
             color: #ff4444;
+            font-weight: bold;
+        }
+
+        .green {
+            color: #00ff88;
+        }
+
+        .yellow {
+            color: #ffd700;
+        }
+
+        .nodes {
+            margin: 30px 0;
+            padding: 20px;
+            background: #0d1117;
+            line-height: 2;
+        }
+
+        .node {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input {
+            background: #0d1117;
+            color: #00ff88;
+            border: 1px solid #555;
+            padding: 12px;
+            font-family: "Courier New", monospace;
+            font-size: 16px;
+            width: 200px;
+        }
+
+        button {
+            background: #e60000;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff2222;
+        }
+
+        #error {
+            color: #ff4444;
+            margin-top: 20px;
+            display: none;
+        }
+
+        #success {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #00ff88;
+            background: #05150d;
         }
 
         .blink {
@@ -36,6 +107,12 @@
         @keyframes blink {
             50% { opacity: 0; }
         }
+
+        .classified {
+            font-size: 12px;
+            color: #777;
+            margin-bottom: 25px;
+        }
     </style>
 </head>
 
@@ -43,30 +120,189 @@
 
 <div class="terminal">
 
+    <div class="classified">
+        INTERNAL // CONFIDENTIAL // SECURITY OPERATIONS
+    </div>
+
     <h1>VODAFONE // RESTRICTED SYSTEM</h1>
 
-    <p class="red">SECURITY ALERT</p>
-
-    <p>
-        Unauthorized activity detected.
+    <p class="alert">
+        ⚠ SECURITY INCIDENT DETECTED
     </p>
 
     <p>
-        Internal recovery protocol activated.
+        An anomaly was detected on the internal network.
+    </p>
+
+    <p>
+        Five nodes responded during the incident:
+    </p>
+
+    <div class="nodes">
+
+        <div class="node">
+            <span>NODE-17</span>
+            <span class="green">ONLINE</span>
+        </div>
+
+        <div class="node">
+            <span>NODE-23</span>
+            <span class="green">ONLINE</span>
+        </div>
+
+        <div class="node">
+            <span>NODE-29</span>
+            <span class="green">ONLINE</span>
+        </div>
+
+        <div class="node">
+            <span>NODE-35</span>
+            <span class="yellow">UNKNOWN</span>
+        </div>
+
+        <div class="node">
+            <span>NODE-41</span>
+            <span class="green">ONLINE</span>
+        </div>
+
+    </div>
+
+    <h2>SECURITY ANALYSIS</h2>
+
+    <p>
+        Four nodes share the same mathematical property.
+    </p>
+
+    <p>
+        The compromised node is the exception.
     </p>
 
     <br>
 
-    <p>
-        STATUS: LOCKED
-    </p>
+    <label>COMPROMISED NODE ID:</label>
 
-    <p>
-        Waiting for authentication...
+    <br><br>
+
+    <input
+        type="text"
+        id="answer"
+        autocomplete="off"
+        placeholder="NODE ID"
+    >
+
+    <button onclick="verifyNode()">
+        VERIFY NODE
+    </button>
+
+    <div id="error">
+        ACCESS DENIED<br><br>
+        Incorrect node identification.
         <span class="blink">_</span>
-    </p>
+    </div>
+
+    <div id="success">
+
+        <h2 class="green">✓ NODE IDENTIFIED</h2>
+
+        <p>
+            NODE-35 isolated successfully.
+        </p>
+
+        <p>
+            Recovering forensic evidence...
+        </p>
+
+        <p class="green">
+            EVIDENCE RECOVERED
+        </p>
+
+        <p>
+            File: incident.log
+        </p>
+
+        <button onclick="downloadEvidence()">
+            DOWNLOAD EVIDENCE
+        </button>
+
+    </div>
 
 </div>
+
+<script>
+
+function verifyNode() {
+
+    const answer = document
+        .getElementById("answer")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const error = document.getElementById("error");
+    const success = document.getElementById("success");
+
+    if (answer === "35" || answer === "node-35") {
+
+        error.style.display = "none";
+        success.style.display = "block";
+
+    } else {
+
+        success.style.display = "none";
+        error.style.display = "block";
+
+    }
+}
+
+function downloadEvidence() {
+
+    const log = `08:42:01 INFO  Authentication service started
+08:42:04 INFO  User validation successful
+08:42:07 INFO  Gateway status OK
+08:42:09 INFO  Connection from internal network
+08:42:11 WARN  Restricted endpoint requested
+
+08:42:13 INFO  Authentication token received
+
+TOKEN:
+Vk9EQUZPTkUtNDcyOQ==
+
+08:42:15 WARN  Access denied
+08:42:17 INFO  Connection terminated
+
+--- END OF RECOVERED LOG ---`;
+
+    const blob = new Blob([log], {
+        type: "text/plain"
+    });
+
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "incident.log";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    document.body.removeChild(a);
+
+    URL.revokeObjectURL(url);
+}
+
+document
+    .getElementById("answer")
+    .addEventListener("keypress", function(event) {
+
+        if (event.key === "Enter") {
+            verifyNode();
+        }
+
+    });
+
+</script>
 
 </body>
 </html>
