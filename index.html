@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex,nofollow" />
   <title>Operation Red Signal</title>
+
   <style>
     :root {
       --vodafone: #e60000;
@@ -107,7 +108,12 @@
     }
 
     p { line-height: 1.58; }
-    .alert { color: var(--vodafone-light); font-weight: 800; }
+
+    .alert {
+      color: var(--vodafone-light);
+      font-weight: 800;
+    }
+
     .muted { color: var(--muted); }
     .green { color: var(--green); }
     .yellow { color: var(--yellow); }
@@ -172,19 +178,11 @@
       text-transform: uppercase;
     }
 
-    .chat-message {
-      margin: 12px 0;
-      padding-left: 12px;
-      border-left: 3px solid #485568;
-      line-height: 1.5;
-    }
-
-    .chat-message strong { color: var(--blue); }
-
     .archive {
       max-height: 340px;
       overflow-y: auto;
       padding-right: 8px;
+      margin-top: 15px;
     }
 
     .archive-entry {
@@ -257,7 +255,17 @@
 
     .error { color: var(--vodafone-light); }
     .success { color: var(--green); }
-    .hint { display: none; margin-top: 11px; color: var(--yellow); }
+
+    .hint {
+      display: none;
+      margin-top: 11px;
+      padding: 12px 14px;
+      border-left: 3px solid var(--yellow);
+      background: rgba(255, 209, 102, .06);
+      color: var(--yellow);
+      line-height: 1.5;
+    }
+
     .hidden { display: none !important; }
 
     .history {
@@ -303,7 +311,10 @@
       background: #151811;
     }
 
-    .legend span { font-size: 20px; margin-right: 8px; }
+    .legend span {
+      font-size: 20px;
+      margin-right: 8px;
+    }
 
     .final-code {
       margin: 24px 0;
@@ -331,12 +342,19 @@
     }
   </style>
 </head>
+
 <body>
+
 <div class="app">
+
   <header class="topbar">
-    <div class="brand"><span>VODAFONE</span> // SECURITY OPERATIONS</div>
+    <div class="brand">
+      <span>VODAFONE</span> // SECURITY OPERATIONS
+    </div>
+
     <div class="timer" id="timer">10:00</div>
   </header>
+
 
   <div class="progress" aria-label="Challenge progress">
     <div class="progress-bar active" id="progress1"></div>
@@ -344,212 +362,739 @@
     <div class="progress-bar" id="progress3"></div>
   </div>
 
+
   <main class="card">
-    <!-- PUZZLE 2: NODE ANALYSIS -->
+
+    <!-- ====================================================== -->
+    <!-- PUZZLE 1: NODE ANALYSIS -->
+    <!-- ====================================================== -->
+
     <section id="stage1">
-      <div class="classification">Internal // Confidential // Operation Red Signal</div>
+
+      <div class="classification">
+        Internal // Confidential // Operation Red Signal
+      </div>
+
       <h1>Compromised node analysis</h1>
-      <p class="alert">Ten nodes responded during the incident. Nine share the same mathematical property. One does not.</p>
-      <p>Identify and isolate the compromised node.</p>
+
+      <p class="alert">
+        Ten nodes responded during the final seconds before the incident.
+        The monitoring system marked all ten as healthy.
+      </p>
+
+      <p>
+        That assessment was wrong.
+      </p>
+
+      <p>
+        Nine nodes share a property that should not be accidental.
+        One breaks the pattern.
+        The security system will not allow the investigation to continue
+        until the anomalous node has been isolated.
+      </p>
+
+      <div class="terminal">INCIDENT SNAPSHOT
+---------------------------
+ACTIVE NODES............... 10
+EXPECTED ANOMALIES......... 1
+NETWORK STATUS............. UNSTABLE
+
+SYSTEM NOTE:
+"Sometimes the simplest property is the easiest one to overlook."</div>
+
 
       <div class="node-grid">
-        <div class="node">NODE-73<span class="status">ONLINE</span></div>
-        <div class="node">NODE-29<span class="status">ONLINE</span></div>
-        <div class="node">NODE-61<span class="status">ONLINE</span></div>
-        <div class="node">NODE-43<span class="status">ONLINE</span></div>
-        <div class="node">NODE-91<span class="status">ONLINE</span></div>
-        <div class="node">NODE-17<span class="status">ONLINE</span></div>
-        <div class="node">NODE-53<span class="status">ONLINE</span></div>
-        <div class="node">NODE-37<span class="status">ONLINE</span></div>
-        <div class="node">NODE-67<span class="status">ONLINE</span></div>
-        <div class="node">NODE-47<span class="status">ONLINE</span></div>
+
+        <div class="node">
+          NODE-73
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-29
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-61
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-43
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-91
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-17
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-53
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-37
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-67
+          <span class="status">ONLINE</span>
+        </div>
+
+        <div class="node">
+          NODE-47
+          <span class="status">ONLINE</span>
+        </div>
+
       </div>
+
 
       <div class="input-row">
-        <input id="nodeAnswer" placeholder="Compromised node ID" autocomplete="off" />
-        <button onclick="checkNode()">ISOLATE NODE</button>
+
+        <input
+          id="nodeAnswer"
+          placeholder="Compromised node ID"
+          autocomplete="off"
+        />
+
+        <button onclick="checkNode()">
+          ISOLATE NODE
+        </button>
+
       </div>
+
       <div class="message" id="nodeMessage"></div>
-      <button class="hint-button" onclick="showHint('nodeHint')">REQUEST HINT</button>
-      <div class="hint" id="nodeHint">Try checking whether every node ID has exactly two positive divisors.</div>
+
+      <button
+        class="hint-button"
+        onclick="showHint('nodeHint')"
+      >
+        REQUEST HINT
+      </button>
+
+      <div class="hint" id="nodeHint">
+        The status indicators are a distraction.
+        Look at the numbers themselves. Nine of them share a very
+        well-known mathematical property.
+      </div>
+
     </section>
 
-    <!-- PUZZLE 3: CROSS EVIDENCE -->
+
+
+    <!-- ====================================================== -->
+    <!-- PUZZLE 2: CROSS EVIDENCE -->
+    <!-- ====================================================== -->
+
     <section id="stage2" class="hidden">
-      <div class="classification">Forensic workspace // Evidence correlation</div>
-      <h1>Reconstruct the recovery message ID</h1>
-      <p class="alert">One recovery payload is genuine. Every other token is a decoy.</p>
-      <p>Cross-reference the log, the Teams conversation and the recovered message archive. Then decode the correct payload.</p>
+
+      <div class="classification">
+        Forensic workspace // Fragmented evidence
+      </div>
+
+      <h1>Trace the recovery route</h1>
+
+      <p class="alert">
+        Isolation succeeded, but the recovery sequence was interrupted
+        before its destination could be recorded.
+      </p>
+
+      <p>
+        Three pieces of evidence survived the incident.
+        None appears to contain the complete answer.
+      </p>
+
+      <p>
+        The fragments were collected from different sources and were not
+        originally believed to be related. Investigators suspect otherwise.
+      </p>
+
+
+      <div class="terminal">FORENSIC RECOVERY SESSION
+---------------------------
+LOG FRAGMENT............... RECOVERED
+COMMUNICATION SNAPSHOT..... RECOVERED
+MESSAGE ARCHIVE............ PARTIALLY RECOVERED
+
+CORRELATION STATUS......... UNKNOWN
+
+SYSTEM NOTE:
+"The identifier was never stored in one place."</div>
+
 
       <div class="evidence-grid">
-        <article class="evidence">
-          <div class="evidence-title">Evidence A // Application log</div>
-          <p>A log fragment was recovered from the affected component.</p>
-          <button onclick="downloadLog()">DOWNLOAD APPLICATION.LOG</button>
-        </article>
+
+
+        <!-- Evidence A -->
 
         <article class="evidence">
-          <div class="evidence-title">Evidence B // Recovered Teams conversation</div>
-          <p>A short conversation about component message identifiers was recovered.</p>
-          <button onclick="downloadConversation()">DOWNLOAD TEAMS-CONVERSATION.TXT</button>
+
+          <div class="evidence-title">
+            Evidence A // Application log
+          </div>
+
+          <p>
+            A fragment of the component log survived the incident.
+          </p>
+
+          <p>
+            Most entries are routine system activity, but one incomplete
+            reference appears immediately before recovery authentication failed.
+          </p>
+
+          <p class="muted">
+            The damaged characters could not be reconstructed from this
+            source alone.
+          </p>
+
+          <button onclick="downloadLog()">
+            DOWNLOAD APPLICATION.LOG
+          </button>
+
         </article>
+
+
+        <!-- Evidence B -->
+
+        <article class="evidence">
+
+          <div class="evidence-title">
+            Evidence B // Communication snapshot
+          </div>
+
+          <p>
+            A screenshot recovered from an internal conversation was found
+            in the same incident package.
+          </p>
+
+          <p>
+            It was initially classified as unrelated communication.
+          </p>
+
+          <p class="muted">
+            No direct reference to the incident was detected.
+          </p>
+
+          <button onclick="downloadConversation()">
+            DOWNLOAD RECOVERED IMAGE
+          </button>
+
+        </article>
+
+
+        <!-- Evidence C -->
 
         <article class="evidence full">
-          <div class="evidence-title">Evidence C // Recovered message archive</div>
-          <div class="archive">
-            <div class="archive-entry"><strong>MSG-7310</strong><code>U1RBVFVTLU9OTElORQ==</code></div>
-            <div class="archive-entry"><strong>AUTH-2841</strong><code>QVVUSC1UT0tFTi1WQUxJRA==</code></div>
-            <div class="archive-entry"><strong>MSG-9921</strong><code>REVQTE9ZTUVOVC1PSw==</code></div>
-            <div class="archive-entry"><strong>NET-2841</strong><code>TkVUV09SSy1DSEVDSw==</code></div>
-            <div class="archive-entry"><strong>API-4483</strong><code>QVBJLU9OTElORQ==</code></div>
-            <div class="archive-entry"><strong>MSG-2841</strong><code>UkVDT1ZFUlktQ09OU09MRQ==</code></div>
-            <div class="archive-entry"><strong>AUTH-5527</strong><code>QVVUSC1PSw==</code></div>
-            <div class="archive-entry"><strong>MSG-6704</strong><code>U1RBVFVTLUhFQUxUSFk=</code></div>
-            <div class="archive-entry"><strong>API-2841</strong><code>QVBJLVJFQ09WRVJZ</code></div>
-            <div class="archive-entry"><strong>MSG-1937</strong><code>VEVTVElORy1PTkxZ</code></div>
-            <div class="archive-entry"><strong>DB-2841</strong><code>REFUQUJBU0UtT0s=</code></div>
-            <div class="archive-entry"><strong>MSG-8221</strong><code>T0xELVJFQ09WRVJZ</code></div>
+
+          <div class="evidence-title">
+            Evidence C // Recovered message archive
           </div>
+
+          <p>
+            The archive contains messages generated by several components
+            during the same period.
+          </p>
+
+          <p>
+            Most represent ordinary platform traffic. One belongs to the
+            interrupted recovery sequence.
+          </p>
+
+          <p class="muted">
+            Message contents appear to have been stored using a transport
+            representation rather than plain text.
+          </p>
+
+
+          <div class="archive">
+
+            <div class="archive-entry">
+              <strong>MSG-7310</strong>
+              <code>U1RBVFVTLU9OTElORQ==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>AUTH-2841</strong>
+              <code>QVVUSC1UT0tFTi1WQUxJRA==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>MSG-9921</strong>
+              <code>REVQTE9ZTUVOVC1PSw==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>NET-2841</strong>
+              <code>TkVUV09SSy1DSEVDSw==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>API-4483</strong>
+              <code>QVBJLU9OTElORQ==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>MSG-2841</strong>
+              <code>UkVDT1ZFUlktQ09OU09MRQ==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>AUTH-5527</strong>
+              <code>QVVUSC1PSw==</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>MSG-6704</strong>
+              <code>U1RBVFVTLUhFQUxUSFk=</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>API-2841</strong>
+              <code>QVBJLVJFQ09WRVJZ</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>MSG-1937</strong>
+              <code>VEVTVElORy1PTkxZ</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>DB-2841</strong>
+              <code>REFUQUJBU0UtT0s=</code>
+            </div>
+
+            <div class="archive-entry">
+              <strong>MSG-8221</strong>
+              <code>T0xELVJFQ09WRVJZ</code>
+            </div>
+
+          </div>
+
         </article>
+
       </div>
 
-      <p class="muted">Enter the decoded payload, not the message ID or the encoded token.</p>
+
+      <p class="muted">
+        The console is waiting for a destination.
+        An identifier will not be accepted.
+      </p>
+
+
       <div class="input-row">
-        <input id="recoveryAnswer" placeholder="Decoded recovery destination" autocomplete="off" />
-        <button onclick="checkRecovery()">CONNECT</button>
+
+        <input
+          id="recoveryAnswer"
+          placeholder="Recovery destination"
+          autocomplete="off"
+        />
+
+        <button onclick="checkRecovery()">
+          CONNECT
+        </button>
+
       </div>
+
+
       <div class="message" id="recoveryMessage"></div>
-      <button class="hint-button" onclick="showHint('recoveryHint')">REQUEST HINT</button>
-      <div class="hint" id="recoveryHint">Combine the four-letter mask from the log with the component prefix from Teams. The selected payload uses Base64.</div>
+
+
+      <button
+        class="hint-button"
+        onclick="showHint('recoveryHint')"
+      >
+        REQUEST HINT
+      </button>
+
+
+      <div class="hint" id="recoveryHint">
+        One source knows the end of an identifier.
+        Another source may tell you how its beginning should look.
+        When both fragments agree, the archive should contain exactly
+        what you need. The payload will still need interpretation.
+      </div>
+
     </section>
 
-    <!-- PUZZLE 4: FIVE-DIGIT MASTERMIND -->
+
+
+    <!-- ====================================================== -->
+    <!-- PUZZLE 3: FIVE-DIGIT MASTERMIND -->
+    <!-- ====================================================== -->
+
     <section id="stage3" class="hidden">
-      <div class="classification">Recovery console // Authentication history</div>
+
+      <div class="classification">
+        Recovery console // Authentication history
+      </div>
+
       <h1>Recover the five-digit PIN</h1>
-      <p>The PIN contains <strong>five different digits</strong>. Use the recovered authentication history to determine the only valid sequence.</p>
-      <p class="alert">The symbols show quantities only. Their displayed order does not correspond to the digits above them.</p>
+
+      <p class="alert">
+        Connection established. The final security lock is still active.
+      </p>
+
+      <p>
+        The original PIN is unavailable, but four failed authentication
+        attempts remain in the console history.
+      </p>
+
+      <p>
+        The PIN contains
+        <strong>five different digits</strong>.
+        The validation symbols indicate how close each attempt came to
+        the correct sequence.
+      </p>
+
+      <p class="alert">
+        Important: the symbols represent quantities only.
+        Their displayed order does not correspond to the digits above them.
+      </p>
+
 
       <div class="history">
+
         <div class="attempt">
           <div class="attempt-name">ATTEMPT #01</div>
           <div class="attempt-number">71389</div>
           <div class="symbols">× × × × ×</div>
         </div>
+
         <div class="attempt">
           <div class="attempt-name">ATTEMPT #02</div>
           <div class="attempt-number">45026</div>
           <div class="symbols">● ● ○ ○ ○</div>
         </div>
+
         <div class="attempt">
           <div class="attempt-name">ATTEMPT #03</div>
           <div class="attempt-number">56817</div>
           <div class="symbols">● ● × × ×</div>
         </div>
+
         <div class="attempt">
           <div class="attempt-name">ATTEMPT #04</div>
           <div class="attempt-number">20564</div>
           <div class="symbols">● ○ ○ ○ ○</div>
         </div>
+
       </div>
+
 
       <div class="legend">
-        <div><span>●</span>Correct digit, correct position</div>
-        <div><span>○</span>Correct digit, wrong position</div>
-        <div><span>×</span>Digit not present in the PIN</div>
+
+        <div>
+          <span>●</span>
+          Correct digit, correct position
+        </div>
+
+        <div>
+          <span>○</span>
+          Correct digit, wrong position
+        </div>
+
+        <div>
+          <span>×</span>
+          Digit not present in the PIN
+        </div>
+
       </div>
+
 
       <div class="input-row">
-        <input id="pinAnswer" placeholder="Five-digit recovery PIN" maxlength="5" inputmode="numeric" autocomplete="off" />
-        <button onclick="checkPin()">RESTORE SYSTEM</button>
+
+        <input
+          id="pinAnswer"
+          placeholder="Five-digit recovery PIN"
+          maxlength="5"
+          inputmode="numeric"
+          autocomplete="off"
+        />
+
+        <button onclick="checkPin()">
+          RESTORE SYSTEM
+        </button>
+
       </div>
+
+
       <div class="message" id="pinMessage"></div>
-      <button class="hint-button" onclick="showHint('pinHint')">REQUEST HINT</button>
-      <div class="hint" id="pinHint">Start with Attempt #01 to eliminate digits. Attempt #02 tells you exactly which five digits are used.</div>
+
+
+      <button
+        class="hint-button"
+        onclick="showHint('pinHint')"
+      >
+        REQUEST HINT
+      </button>
+
+
+      <div class="hint" id="pinHint">
+        Attempt #01 eliminates five possibilities immediately.
+        Then look at Attempt #02 again: every digit in that attempt
+        belongs somewhere in the final PIN.
+      </div>
+
     </section>
 
+
+
+    <!-- ====================================================== -->
     <!-- FINAL -->
+    <!-- ====================================================== -->
+
     <section id="finalStage" class="hidden">
-      <div class="classification">Operation Red Signal // Mission complete</div>
-      <h1 class="green">System restored</h1>
+
+      <div class="classification">
+        Operation Red Signal // Mission complete
+      </div>
+
+      <h1 class="green">
+        System restored
+      </h1>
+
+
       <div class="terminal">MESSAGE ROUTE............... RESTORED
 RECOVERY CONSOLE............ AUTHENTICATED
 SECURITY LOCK............... CLEARED
-PLATFORM STATUS............. ONLINE</div>
-      <p>Send this code privately to the game host in Teams:</p>
-      <div class="final-code">RED-SIGNAL-56024</div>
-      <p class="muted">Do not share it with the other teams.</p>
+PLATFORM STATUS............. ONLINE
+
+INCIDENT RESPONSE........... COMPLETE</div>
+
+
+      <p>
+        Operation Red Signal has been completed successfully.
+      </p>
+
+      <p>
+        Send the following verification code privately to the game host in Teams:
+      </p>
+
+
+      <div class="final-code">
+        RED-SIGNAL-56024
+      </div>
+
+
+      <p class="muted">
+        Do not share the verification code with the other teams.
+      </p>
+
     </section>
+
   </main>
 
-  <div class="footer">Fictional team-building challenge. No real Vodafone systems, credentials or operational data are used.</div>
+
+  <div class="footer">
+    Fictional team-building challenge. No real Vodafone systems,
+    credentials or operational data are used.
+  </div>
+
 </div>
 
+
+
 <script>
+
+  /* ==========================================================
+     GLOBAL STATE
+     ========================================================== */
+
   let currentStage = 1;
   let secondsLeft = 10 * 60;
 
+
+  /* ==========================================================
+     TIMER
+     ========================================================== */
+
   const countdown = setInterval(() => {
+
     if (secondsLeft <= 0) {
+
       clearInterval(countdown);
+
       const timer = document.getElementById('timer');
+
       timer.textContent = '00:00';
       timer.style.color = '#ff3b3b';
+
       return;
     }
 
     secondsLeft -= 1;
-    const minutes = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
-    const seconds = String(secondsLeft % 60).padStart(2, '0');
-    document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+
+    const minutes =
+      String(Math.floor(secondsLeft / 60)).padStart(2, '0');
+
+    const seconds =
+      String(secondsLeft % 60).padStart(2, '0');
+
+    document.getElementById('timer').textContent =
+      `${minutes}:${seconds}`;
+
   }, 1000);
 
+
+
+  /* ==========================================================
+     UTILITIES
+     ========================================================== */
+
   function normalize(value) {
-    return value.trim().toUpperCase().replace(/\s+/g, '');
+
+    return value
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, '');
+
   }
+
 
   function showMessage(id, text, success) {
-    const element = document.getElementById(id);
+
+    const element =
+      document.getElementById(id);
+
     element.textContent = text;
-    element.className = `message ${success ? 'success' : 'error'}`;
+
+    element.className =
+      `message ${success ? 'success' : 'error'}`;
+
   }
+
 
   function showHint(id) {
-    document.getElementById(id).style.display = 'block';
+
+    document
+      .getElementById(id)
+      .style.display = 'block';
+
   }
+
 
   function moveToStage(number) {
-    document.getElementById(`stage${currentStage}`).classList.add('hidden');
+
+    document
+      .getElementById(`stage${currentStage}`)
+      .classList.add('hidden');
+
     currentStage = number;
-    document.getElementById(`stage${number}`).classList.remove('hidden');
-    document.getElementById(`progress${number}`).classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    document
+      .getElementById(`stage${number}`)
+      .classList.remove('hidden');
+
+    document
+      .getElementById(`progress${number}`)
+      .classList.add('active');
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+
   }
+
+
+
+  /* ==========================================================
+     PUZZLE 1 - NODE
+     ========================================================== */
 
   function checkNode() {
-    const answer = normalize(document.getElementById('nodeAnswer').value).replace('NODE-', '');
+
+    const answer =
+      normalize(
+        document.getElementById('nodeAnswer').value
+      ).replace('NODE-', '');
+
+
     if (answer === atob('OTE=')) {
-      showMessage('nodeMessage', 'NODE-91 isolated. Forensic workspace unlocked.', true);
-      setTimeout(() => moveToStage(2), 650);
+
+      showMessage(
+        'nodeMessage',
+        'NODE-91 isolated. Additional forensic data recovered.',
+        true
+      );
+
+
+      setTimeout(() => {
+
+        moveToStage(2);
+
+      }, 650);
+
+
     } else {
-      showMessage('nodeMessage', 'Incorrect node. Recheck the mathematical property shared by the other nine IDs.', false);
+
+      showMessage(
+        'nodeMessage',
+        'Isolation rejected. The selected node does not explain the anomaly.',
+        false
+      );
+
     }
+
   }
+
+
+
+  /* ==========================================================
+     FILE DOWNLOAD UTILITY
+     ========================================================== */
 
   function downloadTextFile(filename, content) {
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
+
+    const blob =
+      new Blob(
+        [content],
+        { type: 'text/plain;charset=utf-8' }
+      );
+
+
+    const url =
+      URL.createObjectURL(blob);
+
+
+    const anchor =
+      document.createElement('a');
+
+
     anchor.href = url;
     anchor.download = filename;
+
+
     document.body.appendChild(anchor);
+
     anchor.click();
+
     anchor.remove();
+
+
     URL.revokeObjectURL(url);
+
   }
 
+
+
+  /* ==========================================================
+     DOWNLOAD APPLICATION LOG
+     ========================================================== */
+
   function downloadLog() {
-    const content = `09:13:37 INFO  Health check completed
+
+    const content =
+`09:13:37 INFO  Health check completed
 09:13:39 INFO  Connection pool active
 09:13:41 WARN  Recovery request detected
 09:13:42 INFO  Recovery procedure initialized
@@ -557,69 +1102,205 @@ PLATFORM STATUS............. ONLINE</div>
 09:13:45 WARN  Recovery message required
 09:13:46 INFO  Message reference: ****-2841
 09:13:48 ERROR Recovery authentication pending`;
-    downloadTextFile('application.log', content);
+
+
+    downloadTextFile(
+      'application.log',
+      content
+    );
+
   }
+
+
+
+  /* ==========================================================
+     DOWNLOAD TEAMS SCREENSHOT
+     
+     IMPORTANT:
+     teams-conversation.png must be in the same folder
+     as index.html.
+     ========================================================== */
 
   function downloadConversation() {
-    const content = `RECOVERED TEAMS CONVERSATION
-========================================
 
-Laura · 08:47
-Quick question, how are message IDs generated for each component?
+    const anchor =
+      document.createElement('a');
 
-Mike · 08:48
-Each component has its own prefix.
 
-Laura · 08:49
-What do we use for the Messaging Service?
+    anchor.href =
+      'teams-conversation.png';
 
-Mike · 08:50
-For that component, we always use MSG.
 
-Laura · 08:51
-Got it.`;
-    downloadTextFile('teams-conversation.txt', content);
+    anchor.download =
+      'recovered-teams-conversation.png';
+
+
+    document.body.appendChild(anchor);
+
+    anchor.click();
+
+    anchor.remove();
+
   }
+
+
+
+  /* ==========================================================
+     PUZZLE 2 - RECOVERY MESSAGE
+     ========================================================== */
 
   function checkRecovery() {
-    const answer = normalize(document.getElementById('recoveryAnswer').value).replace(/[–—_]/g, '-');
-    if (answer === atob('UkVDT1ZFUlktQ09OU09MRQ==')) {
-      showMessage('recoveryMessage', 'Recovery console connected. Authentication history unlocked.', true);
-      setTimeout(() => moveToStage(3), 650);
+
+    const answer =
+      normalize(
+        document.getElementById('recoveryAnswer').value
+      ).replace(/[–—_]/g, '-');
+
+
+    if (
+      answer ===
+      atob('UkVDT1ZFUlktQ09OU09MRQ==')
+    ) {
+
+      showMessage(
+        'recoveryMessage',
+        'Destination verified. Recovery console responding...',
+        true
+      );
+
+
+      setTimeout(() => {
+
+        moveToStage(3);
+
+      }, 650);
+
+
     } else {
-      showMessage('recoveryMessage', 'Connection rejected. Make sure you selected and decoded the correct message payload.', false);
+
+      showMessage(
+        'recoveryMessage',
+        'Connection rejected. The supplied destination does not match the recovered route.',
+        false
+      );
+
     }
+
   }
+
+
+
+  /* ==========================================================
+     PUZZLE 3 - FIVE-DIGIT PIN
+     ========================================================== */
 
   function checkPin() {
-    const answer = normalize(document.getElementById('pinAnswer').value);
-    if (answer === atob('NTYwMjQ=')) {
-      showMessage('pinMessage', 'PIN accepted. Restoring the platform...', true);
+
+    const answer =
+      normalize(
+        document.getElementById('pinAnswer').value
+      );
+
+
+    if (
+      answer ===
+      atob('NTYwMjQ=')
+    ) {
+
+      showMessage(
+        'pinMessage',
+        'Authentication accepted. Restoring platform...',
+        true
+      );
+
+
       setTimeout(() => {
-        document.getElementById('stage3').classList.add('hidden');
-        document.getElementById('finalStage').classList.remove('hidden');
+
+        document
+          .getElementById('stage3')
+          .classList.add('hidden');
+
+
+        document
+          .getElementById('finalStage')
+          .classList.remove('hidden');
+
+
         clearInterval(countdown);
-        const timer = document.getElementById('timer');
-        timer.textContent = 'COMPLETE';
-        timer.style.color = '#36e394';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+
+        const timer =
+          document.getElementById('timer');
+
+
+        timer.textContent =
+          'COMPLETE';
+
+
+        timer.style.color =
+          '#36e394';
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+
+
       }, 700);
+
+
     } else {
-      showMessage('pinMessage', 'PIN rejected. Recheck the quantity and position information in all four attempts.', false);
+
+      showMessage(
+        'pinMessage',
+        'Authentication rejected. The sequence is inconsistent with the recovered attempts.',
+        false
+      );
+
     }
+
   }
 
+
+
+  /* ==========================================================
+     ENTER KEY SUPPORT
+     ========================================================== */
+
   const enterActions = {
+
     nodeAnswer: checkNode,
+
     recoveryAnswer: checkRecovery,
+
     pinAnswer: checkPin
+
   };
 
-  Object.entries(enterActions).forEach(([id, action]) => {
-    document.getElementById(id).addEventListener('keydown', event => {
-      if (event.key === 'Enter') action();
+
+  Object
+    .entries(enterActions)
+    .forEach(([id, action]) => {
+
+      document
+        .getElementById(id)
+        .addEventListener(
+          'keydown',
+          event => {
+
+            if (event.key === 'Enter') {
+
+              action();
+
+            }
+
+          }
+        );
+
     });
-  });
+
 </script>
+
 </body>
 </html>
